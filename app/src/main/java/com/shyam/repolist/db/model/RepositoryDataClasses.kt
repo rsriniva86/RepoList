@@ -16,7 +16,7 @@ data class RepositoryList(
    @ColumnInfo(name ="next")
    val next:String,
    @ColumnInfo(name ="values")
-   val repositoryDataDtoList: List<Repository>?
+   val repositories: List<Repository>?
 )
 
 data class Repository (
