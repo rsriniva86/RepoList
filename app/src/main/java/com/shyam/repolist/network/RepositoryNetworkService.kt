@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface RepositoryNetworkService {
 
-    @GET("")
+    @GET("repositories")
     suspend fun getRepoList(): RepositoryResponseDto
 }

@@ -1,4 +1,4 @@
-package com.example.searchimageara.di
+package com.shyam.repolist.di
 
 import android.content.Context
 import com.shyam.repolist.RepoListApp
