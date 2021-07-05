@@ -1,7 +1,8 @@
-package com.shyam.repolist
+package com.shyam.repolist.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.shyam.repolist.R
 import com.shyam.repolist.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
