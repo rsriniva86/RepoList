@@ -2,24 +2,18 @@ package com.shyam.repolist.db.model
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "repository_list")
-data class RepositoryList(
-   @PrimaryKey
-   @NonNull
-   @ColumnInfo(name = "url")
-   val url:String,
-   @ColumnInfo(name ="pagelen")
-   val pageLength:Int,
-   @ColumnInfo(name ="next")
-   val next:String,
-   @ColumnInfo(name ="values")
-   val repositories: List<Repository>?
-)
-
 data class Repository (
+
+   @NonNull
+   @PrimaryKey
+   @ColumnInfo(name ="url")
+   var urlWithIndex:String,
 
    @ColumnInfo(name ="scm")
    val scm:String,
@@ -37,42 +31,42 @@ data class Repository (
    val language:String,
    @ColumnInfo(name ="created_on")
    val createdOn:String,
-   @ColumnInfo(name ="owner")
-   val owner: RepoOwner,
-   @ColumnInfo(name ="type")
+   @Embedded
+   val owner: RepoOwner?,
+   @ColumnInfo(name ="repo_type")
    val type:String,
 
-   )
+   ) : Serializable
 
 data class RepoOwner (
    @ColumnInfo(name ="display_name")
-   val displayName:String,
+   val displayName:String?,
    @ColumnInfo(name ="uuid")
    val uuid:String,
-   @ColumnInfo(name ="self")
-   val self:Self,
-   @ColumnInfo(name ="html")
-   val html:Html,
-   @ColumnInfo(name ="avatar")
-   val avatar: Avatar,
-   @ColumnInfo(name ="type")
-   val type:String,
+   @Embedded
+   val self:Self?,
+   @Embedded
+   val html:Html?,
+   @Embedded
+   val avatar: Avatar?,
+   @ColumnInfo(name ="owner_type")
+   val type:String?,
    @ColumnInfo(name ="nickname")
-   val nickname:String,
+   val nickname:String?,
    @ColumnInfo(name ="account_id")
-   val accountID:String
-)
+   val accountID:String?
+) : Serializable
 
 data class Self(
-   @ColumnInfo(name ="href")
+   @ColumnInfo(name ="selfhref")
    val href:String
 )
 data class Html(
-   @ColumnInfo(name ="href")
+   @ColumnInfo(name ="htmlhref")
    val href:String
 )
 data class Avatar(
-   @ColumnInfo(name ="href")
+   @ColumnInfo(name ="avatarhref")
    val href:String
 )
 

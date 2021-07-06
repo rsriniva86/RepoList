@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.shyam.repolist.ui.main.MainFragment"
+        android:label="A"
+        tools:layout="@layout/main_fragment" >
+
+        <action
+            android:id="@+id/action_a_b"
+            app:destination="@id/avatar" />
+        <action
+            android:id="@+id/action_a_c"
+            app:destination="@id/webpage" />
+    </fragment>
+    <dialog
+        android:id="@+id/avatar"
+        android:name="com.shyam.repolist.ui.avatar.AvatarDialogFragment"
+        android:label="b" />
+    <fragment
+        android:id="@+id/webpage"
+        android:name="com.shyam.repolist.ui.webpage.WebPageFragment"
+        android:label="c" />
+
+</navigation>

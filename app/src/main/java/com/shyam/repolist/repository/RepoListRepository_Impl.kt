@@ -1,11 +1,11 @@
 package com.shyam.repolist.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.shyam.repolist.db.RepositoryDatabaseService
-import com.shyam.repolist.db.model.RepositoryList
-import com.shyam.repolist.network.NetworkConstants
+import com.shyam.repolist.db.model.Repository
 import com.shyam.repolist.network.RepositoryNetworkService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -20,18 +20,25 @@ class RepoListRepository_Impl
 
     override suspend fun getRepoList(
         urlQueryString: String
-    ): Flow<PagingData<RepositoryList>> {
+    ): Flow<PagingData<Repository>> {
+        Log.i(TAG,"getRepoList")
         return Pager(
-            PagingConfig(pageSize = 10, enablePlaceholders = false),
+            PagingConfig(pageSize = 1, enablePlaceholders = false),
             remoteMediator = RepoListRemoteMediator(
                     networkService=networkService,
                     databaseService=databaseService
             ),
             pagingSourceFactory = {
+                Log.i(TAG,"From factory")
+
                 databaseService
                         .repoListDao()
-                        .selectByUrl(NetworkConstants.BASE_URL+urlQueryString)
+                        .selectAll()
+
             }
         ).flow
+    }
+    companion object{
+        val TAG = RepoListRepository_Impl::class.simpleName
     }
 }

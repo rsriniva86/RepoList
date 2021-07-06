@@ -1,11 +1,13 @@
 package com.shyam.repolist.repository
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
 import com.shyam.repolist.db.RepositoryDatabaseService
-import com.shyam.repolist.db.model.RepositoryList
+import com.shyam.repolist.db.model.Repository
 import com.shyam.repolist.network.NetworkConstants
 import com.shyam.repolist.network.RepositoryNetworkService
 import com.shyam.repolist.network.model.NetworkModelMapper
@@ -17,19 +19,30 @@ import javax.inject.Inject
 class RepoListRemoteMediator @Inject constructor(
     private val networkService: RepositoryNetworkService,
     private val databaseService: RepositoryDatabaseService
-) : RemoteMediator<Int, RepositoryList>() {
+) : RemoteMediator<Int, Repository>() {
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, RepositoryList>
+        state: PagingState<Int, Repository>
     ): MediatorResult {
         return try {
+            Log.i(TAG, "load")
 
-            val networkResponse = networkService.getRepoList();
+            val networkResponse = networkService.getRepoList()
+            Log.i(TAG, "networkResponse=$networkResponse")
             networkResponse.url=NetworkConstants.BASE_URL+"repositories"
-            val repositoryList = NetworkModelMapper.mapFromNetworkModel(networkResponse)
+            networkResponse.repositoryDataDtoList?.forEachIndexed {
+                    index, repositoryDataDto ->
+                repositoryDataDto.urlWithIndex=networkResponse.url+ index
 
-            if (repositoryList.repositories?.isNotEmpty() == true) {
-                databaseService.repoListDao().saveAll(repoList = repositoryList)
+            }
+            val repositoryList = NetworkModelMapper.mapFromNetworkModelList(networkResponse.repositoryDataDtoList)
+
+            if (repositoryList?.isNotEmpty() == true) {
+                databaseService.withTransaction {
+                    repositoryList.forEach {
+                        databaseService.repoListDao().saveAll(it)
+                    }
+                }
             }
 
             return MediatorResult.Success(endOfPaginationReached = true)

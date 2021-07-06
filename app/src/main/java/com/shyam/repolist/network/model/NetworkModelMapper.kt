@@ -1,55 +1,37 @@
 package com.shyam.repolist.network.model
 import com.shyam.repolist.db.model.*
 
-object NetworkModelMapper : ModelMapper<RepositoryList,RepositoryResponseDto>{
-
-    override fun mapToNetworkModel(model: RepositoryList): RepositoryResponseDto {
-        return RepositoryResponseDto(
-            pageLength = model.pageLength,
-            next=model.next,
-            url=model.url,
-            repositoryDataDtoList = RepositoryMapper.mapToNetworkModelList(model.repositories)
-        )
-    }
-
-    override fun mapFromNetworkModel(model: RepositoryResponseDto): RepositoryList {
-        return RepositoryList(
-                pageLength = model.pageLength,
-                next=model.next,
-                url=model.url,
-                repositories = RepositoryMapper.mapFromNetworkModelList(model.repositoryDataDtoList)
-        )
-    }
-}
-
-private object RepositoryMapper: ModelMapperWithList<Repository, RepositoryDataDto>{
+object NetworkModelMapper : ModelMapperWithList<Repository, RepositoryDataDto>{
     override fun mapToNetworkModel(model: Repository): RepositoryDataDto {
+        model.owner
         return RepositoryDataDto(
-                scm=model.scm,
-                website = model.website,
-                hasWiki = model.hasWiki,
-                forkPolicy = model.forkPolicy,
-                fullName = model.fullName,
-                name = model.name,
-                language = model.language,
-                createdOn = model.createdOn,
-                type = model.type,
-                owner = OwnerMapper.mapToNetworkModel(model.owner)
+            urlWithIndex = model.urlWithIndex,
+            scm=model.scm,
+            website = model.website,
+            hasWiki = model.hasWiki,
+            forkPolicy = model.forkPolicy,
+            fullName = model.fullName,
+            name = model.name,
+            language = model.language,
+            createdOn = model.createdOn,
+            type = model.type,
+            owner = OwnerMapper.mapToNetworkModel(model.owner)
         )
     }
 
     override fun mapFromNetworkModel(model: RepositoryDataDto): Repository {
         return Repository(
-                scm=model.scm,
-                website = model.website,
-                hasWiki = model.hasWiki,
-                forkPolicy = model.forkPolicy,
-                fullName = model.fullName,
-                name = model.name,
-                language = model.language,
-                createdOn = model.createdOn,
-                type = model.type,
-                owner = OwnerMapper.mapFromNetworkModel(model.owner)
+            urlWithIndex = model.urlWithIndex,
+            scm=model.scm,
+            website = model.website,
+            hasWiki = model.hasWiki,
+            forkPolicy = model.forkPolicy,
+            fullName = model.fullName,
+            name = model.name,
+            language = model.language,
+            createdOn = model.createdOn,
+            type = model.type,
+            owner = OwnerMapper.mapFromNetworkModel(model.owner)
         )
     }
     override fun mapToNetworkModelList(listModel: List<Repository>?): List<RepositoryDataDto>? {
@@ -73,10 +55,12 @@ private object RepositoryMapper: ModelMapperWithList<Repository, RepositoryDataD
     }
 }
 
-private object OwnerMapper:ModelMapper<RepoOwner,RepoOwnerDto>{
-    override fun mapToNetworkModel(model: RepoOwner): RepoOwnerDto {
-        return RepoOwnerDto(
-                displayName = model.displayName,
+
+private object OwnerMapper:ModelMapper<RepoOwner?,RepoOwnerDto?>{
+    override fun mapToNetworkModel(model: RepoOwner?): RepoOwnerDto? {
+        return model?.let {
+            RepoOwnerDto(
+                displayName = it.displayName,
                 uuid = model.uuid,
                 accountID = model.accountID,
                 type = model.type,
@@ -84,12 +68,14 @@ private object OwnerMapper:ModelMapper<RepoOwner,RepoOwnerDto>{
                 html = HtmlMapper.mapToNetworkModel(model.html),
                 avatar = AvatarMapper.mapToNetworkModel(model.avatar),
                 self =  SelfMapper.mapToNetworkModel(model.self)
-                )
+            )
+        }
     }
 
-    override fun mapFromNetworkModel(model: RepoOwnerDto): RepoOwner {
-        return RepoOwner(
-                displayName = model.displayName,
+    override fun mapFromNetworkModel(model: RepoOwnerDto?): RepoOwner? {
+        return model?.let {
+            RepoOwner(
+                displayName = it.displayName,
                 uuid = model.uuid,
                 accountID = model.accountID,
                 type = model.type,
@@ -97,49 +83,62 @@ private object OwnerMapper:ModelMapper<RepoOwner,RepoOwnerDto>{
                 html = HtmlMapper.mapFromNetworkModel(model.html),
                 avatar = AvatarMapper.mapFromNetworkModel(model.avatar),
                 self =  SelfMapper.mapFromNetworkModel(model.self)
-        )
+            )
+        }
     }
 
 }
-private object HtmlMapper:ModelMapper<Html,HtmlDto> {
-    override fun mapToNetworkModel(model: Html): HtmlDto {
-        return HtmlDto(
-                href=model.href
-        )
+private object HtmlMapper:ModelMapper<Html?,HtmlDto?> {
+    override fun mapToNetworkModel(model: Html?): HtmlDto? {
+        return model?.let {
+            HtmlDto(
+                href= it.href
+            )
+        }
     }
 
-    override fun mapFromNetworkModel(model: HtmlDto): Html {
-        return Html(
-                href=model.href
-        )
-    }
-
-}
-private object AvatarMapper:ModelMapper<Avatar,AvatarDto> {
-    override fun mapToNetworkModel(model: Avatar): AvatarDto {
-        return AvatarDto(
-                href=model.href
-        )
-    }
-
-    override fun mapFromNetworkModel(model: AvatarDto): Avatar {
-        return Avatar(
-                href=model.href
-        )
+    override fun mapFromNetworkModel(model: HtmlDto?): Html? {
+        return model?.let {
+            Html(
+                href= it.href
+            )
+        }
     }
 
 }
-private object SelfMapper:ModelMapper<Self,SelfDto> {
-    override fun mapToNetworkModel(model: Self): SelfDto {
-        return SelfDto(
-                href=model.href
-        )
+private object AvatarMapper:ModelMapper<Avatar?,AvatarDto?> {
+    override fun mapToNetworkModel(model: Avatar?): AvatarDto? {
+        return model?.let {
+            AvatarDto(
+                href= it.href
+            )
+        }
     }
 
-    override fun mapFromNetworkModel(model: SelfDto): Self {
-        return Self(
-                href=model.href
-        )
+    override fun mapFromNetworkModel(model: AvatarDto?): Avatar? {
+        return model?.let {
+            Avatar(
+                href= it.href
+            )
+        }
+    }
+
+}
+private object SelfMapper:ModelMapper<Self?,SelfDto?> {
+    override fun mapToNetworkModel(model: Self?): SelfDto? {
+        return model?.let {
+            SelfDto(
+                href= it.href
+            )
+        }
+    }
+
+    override fun mapFromNetworkModel(model: SelfDto?): Self? {
+        return model?.let {
+            Self(
+                href= it.href
+            )
+        }
     }
 
 }

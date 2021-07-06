@@ -16,7 +16,8 @@ data class RepositoryResponseDto(
 )
 
 data class RepositoryDataDto (
-
+    @Expose(serialize = false)
+    var urlWithIndex:String,
     @SerializedName("scm")
     val scm:String,
     @SerializedName("website")
@@ -34,7 +35,7 @@ data class RepositoryDataDto (
     @SerializedName("created_on")
     val createdOn:String,
     @SerializedName("owner")
-    val owner: RepoOwnerDto,
+    val owner: RepoOwnerDto?,
     @SerializedName("type")
     val type:String,
 
@@ -42,21 +43,21 @@ data class RepositoryDataDto (
 
 data class RepoOwnerDto (
     @SerializedName("display_name")
-    val displayName:String,
+    val displayName:String?,
     @SerializedName("uuid")
     val uuid:String,
     @SerializedName("self")
-    val self:SelfDto,
+    val self:SelfDto?,
     @SerializedName("html")
-    val html:HtmlDto,
+    val html:HtmlDto?,
     @SerializedName("avatar")
-    val avatar: AvatarDto,
+    val avatar: AvatarDto?,
     @SerializedName("type")
-    val type:String,
+    val type:String?,
     @SerializedName("nickname")
-    val nickname:String,
+    val nickname:String?,
     @SerializedName("account_id")
-    val accountID:String
+    val accountID:String?
 )
 
 data class SelfDto(

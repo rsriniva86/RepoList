@@ -5,15 +5,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.shyam.repolist.db.model.RepositoryList
+import com.shyam.repolist.db.model.Repository
 
 @Dao
 interface RepositoryListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveAll(repoList: RepositoryList)
+    suspend fun saveAll(repo: Repository)
 
-    @Query("SELECT * FROM repository_list WHERE `url` = :q")
-    fun selectByUrl(q: String?): PagingSource<Int, RepositoryList>
+    @Query("SELECT * FROM repository_list WHERE `url` = :url")
+    fun selectByUrl(url: String?): PagingSource<Int, Repository>
+
+    @Query("SELECT * FROM repository_list ")
+    fun selectAll(): PagingSource<Int, Repository>
 
 }
