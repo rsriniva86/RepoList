@@ -52,10 +52,17 @@ class RepositoryListAdapter :
 
         fun bindData(repository: Repository) {
             with(repository) {
-                Glide.with(itemView.context)
-                    .load(repository.owner?.avatar?.href)
-                    .transform(CenterCrop(), RoundedCorners(25))
-                    .into(ivImageCover)
+                repository.owner?.avatar?.href?.let{
+                    Glide.with(itemView.context)
+                        .load(it)
+                        .transform(
+                            CenterCrop(),
+                            RoundedCorners(25)
+                        )
+                        .into(ivImageCover)
+                }
+
+
                 tvTitle.text = fullName
                 tvWebPageUrl.text = website
                 tvWebPageUrl.paintFlags = Paint.UNDERLINE_TEXT_FLAG

@@ -62,13 +62,13 @@ data class RepoOwnerDto (
 
 data class SelfDto(
     @SerializedName("href")
-    val href:String
+    val href:String?
     )
 data class HtmlDto(
     @SerializedName("href")
-    val href:String
+    val href:String?
     )
 data class AvatarDto(
     @SerializedName("href")
-    val href:String
+    val href:String?
     )

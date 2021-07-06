@@ -59,14 +59,14 @@ data class RepoOwner (
 
 data class Self(
    @ColumnInfo(name ="selfhref")
-   val href:String
+   val href:String?
 )
 data class Html(
    @ColumnInfo(name ="htmlhref")
-   val href:String
+   val href:String?
 )
 data class Avatar(
    @ColumnInfo(name ="avatarhref")
-   val href:String
+   val href:String?
 )
 
