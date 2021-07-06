@@ -23,13 +23,15 @@ class RepoListRepository_Impl
     ): Flow<PagingData<Repository>> {
         Log.i(TAG,"getRepoList")
         return Pager(
-            PagingConfig(pageSize = 1, enablePlaceholders = false),
+            PagingConfig(
+                pageSize = 3,
+                enablePlaceholders = false,
+                prefetchDistance = 1),
             remoteMediator = RepoListRemoteMediator(
                     networkService=networkService,
                     databaseService=databaseService
             ),
             pagingSourceFactory = {
-                Log.i(TAG,"From factory")
 
                 databaseService
                         .repoListDao()

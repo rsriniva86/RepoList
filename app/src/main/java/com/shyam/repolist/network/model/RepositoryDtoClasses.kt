@@ -10,7 +10,7 @@ data class RepositoryResponseDto(
     @SerializedName("pagelen")
     val pageLength:Int,
     @SerializedName("next")
-    val next:String,
+    val next:String?,
     @SerializedName("values")
     val repositoryDataDtoList: List<RepositoryDataDto>?
 )
@@ -19,25 +19,25 @@ data class RepositoryDataDto (
     @Expose(serialize = false)
     var urlWithIndex:String,
     @SerializedName("scm")
-    val scm:String,
+    val scm:String?,
     @SerializedName("website")
-    val website:String,
+    val website:String?,
     @SerializedName("has_wiki")
-    val hasWiki:Boolean,
+    val hasWiki:Boolean?,
     @SerializedName("fork_policy")
-    val forkPolicy:String,
+    val forkPolicy:String?,
     @SerializedName("full_name")
-    val fullName:String,
+    val fullName:String?,
     @SerializedName("name")
-    val name:String,
+    val name:String?,
     @SerializedName("language")
-    val language:String,
+    val language:String?,
     @SerializedName("created_on")
-    val createdOn:String,
+    val createdOn:String?,
     @SerializedName("owner")
     val owner: RepoOwnerDto?,
     @SerializedName("type")
-    val type:String,
+    val type:String?,
 
     )
 
@@ -45,7 +45,7 @@ data class RepoOwnerDto (
     @SerializedName("display_name")
     val displayName:String?,
     @SerializedName("uuid")
-    val uuid:String,
+    val uuid:String?,
     @SerializedName("self")
     val self:SelfDto?,
     @SerializedName("html")

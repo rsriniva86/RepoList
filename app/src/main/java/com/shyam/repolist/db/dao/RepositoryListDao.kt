@@ -11,12 +11,13 @@ import com.shyam.repolist.db.model.Repository
 interface RepositoryListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveAll(repo: Repository)
+    suspend fun save(repo: Repository)
 
-    @Query("SELECT * FROM repository_list WHERE `url` = :url")
-    fun selectByUrl(url: String?): PagingSource<Int, Repository>
 
     @Query("SELECT * FROM repository_list ")
     fun selectAll(): PagingSource<Int, Repository>
+
+    @Query("DELETE FROM repository_list")
+    suspend fun deleteAll()
 
 }

@@ -16,25 +16,25 @@ data class Repository (
    var urlWithIndex:String,
 
    @ColumnInfo(name ="scm")
-   val scm:String,
+   val scm:String?,
    @ColumnInfo(name ="website")
-   val website:String,
+   val website:String?,
    @ColumnInfo(name ="has_wiki")
-   val hasWiki:Boolean,
+   val hasWiki:Boolean?,
    @ColumnInfo(name ="fork_policy")
-   val forkPolicy:String,
+   val forkPolicy:String?,
    @ColumnInfo(name ="full_name")
-   val fullName:String,
+   val fullName:String?,
    @ColumnInfo(name ="name")
-   val name:String,
+   val name:String?,
    @ColumnInfo(name ="language")
-   val language:String,
+   val language:String?,
    @ColumnInfo(name ="created_on")
-   val createdOn:String,
+   val createdOn:String?,
    @Embedded
    val owner: RepoOwner?,
    @ColumnInfo(name ="repo_type")
-   val type:String,
+   val type:String?,
 
    ) : Serializable
 
@@ -42,7 +42,7 @@ data class RepoOwner (
    @ColumnInfo(name ="display_name")
    val displayName:String?,
    @ColumnInfo(name ="uuid")
-   val uuid:String,
+   val uuid:String?,
    @Embedded
    val self:Self?,
    @Embedded
