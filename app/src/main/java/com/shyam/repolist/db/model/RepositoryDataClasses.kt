@@ -38,13 +38,13 @@ data class Repository (
    @ColumnInfo(name ="created_on")
    val createdOn:String,
    @ColumnInfo(name ="owner")
-   val owner: RepoOwnerDto,
+   val owner: RepoOwner,
    @ColumnInfo(name ="type")
    val type:String,
 
    )
 
-data class RepoOwnerDto (
+data class RepoOwner (
    @ColumnInfo(name ="display_name")
    val displayName:String,
    @ColumnInfo(name ="uuid")
@@ -75,3 +75,4 @@ data class Avatar(
    @ColumnInfo(name ="href")
    val href:String
 )
+

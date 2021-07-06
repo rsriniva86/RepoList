@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface RepoListRepository {
 
     suspend fun getRepoList(
-        query: String,
-        autoCorrect: Boolean
+        urlQueryString: String,
     ): Flow<PagingData<RepositoryList>>
 
 }

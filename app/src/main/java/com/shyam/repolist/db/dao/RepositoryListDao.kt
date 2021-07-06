@@ -8,12 +8,12 @@ import androidx.room.Query
 import com.shyam.repolist.db.model.RepositoryList
 
 @Dao
-interface RepoListDao {
+interface RepositoryListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveAllImageData(repoList: RepositoryList)
+    suspend fun saveAll(repoList: RepositoryList)
 
     @Query("SELECT * FROM repository_list WHERE `url` = :q")
-    fun selectAll(q: String?): PagingSource<Int, RepositoryList>
+    fun selectByUrl(q: String?): PagingSource<Int, RepositoryList>
 
 }

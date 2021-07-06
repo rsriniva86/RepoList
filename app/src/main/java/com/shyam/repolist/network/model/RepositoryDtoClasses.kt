@@ -1,15 +1,18 @@
 package com.shyam.repolist.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.Expose
 
 
 data class RepositoryResponseDto(
+    @Expose(serialize = false)
+    var url:String,
     @SerializedName("pagelen")
     val pageLength:Int,
     @SerializedName("next")
     val next:String,
     @SerializedName("values")
-    val repositoryDataDtoList: List<RepositoryDataDto>
+    val repositoryDataDtoList: List<RepositoryDataDto>?
 )
 
 data class RepositoryDataDto (
@@ -43,11 +46,11 @@ data class RepoOwnerDto (
     @SerializedName("uuid")
     val uuid:String,
     @SerializedName("self")
-    val self:Self,
+    val self:SelfDto,
     @SerializedName("html")
-    val html:Html,
+    val html:HtmlDto,
     @SerializedName("avatar")
-    val avatar: Avatar,
+    val avatar: AvatarDto,
     @SerializedName("type")
     val type:String,
     @SerializedName("nickname")
@@ -56,15 +59,15 @@ data class RepoOwnerDto (
     val accountID:String
 )
 
-data class Self(
+data class SelfDto(
     @SerializedName("href")
     val href:String
     )
-data class Html(
+data class HtmlDto(
     @SerializedName("href")
     val href:String
     )
-data class Avatar(
+data class AvatarDto(
     @SerializedName("href")
     val href:String
     )
