@@ -56,6 +56,7 @@ class MainFragment : Fragment(),RepositoryListAdapter.ItemClickListener {
     @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initToolbar(toolbar = toolbar, R.string.app_name, false)
         mainActivityDelegate.setupNavDrawer(toolbar)
         mainActivityDelegate.enableNavDrawer(true)
     }
