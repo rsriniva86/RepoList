@@ -40,8 +40,6 @@ class RepositoryListAdapter :
         holder.itemView.tvWebPageUrl.setOnClickListener {
             item?.let { it1 -> itemClickListener?.onUrlClick(it1) }
         }
-
-
     }
 
     fun setOnItemClickListener(listenerSearch: ItemClickListener) {

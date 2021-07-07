@@ -18,7 +18,8 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideNetworkService(): RepositoryNetworkService {
-        return Retrofit.Builder()
+        return Retrofit
+            .Builder()
             .baseUrl(NetworkConstants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
