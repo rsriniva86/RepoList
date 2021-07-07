@@ -67,9 +67,7 @@ private object OwnerMapper:ModelMapper<RepoOwner?,RepoOwnerDto?>{
                 accountID = model.accountID,
                 type = model.type,
                 nickname = model.nickname,
-                html = HtmlMapper.mapToNetworkModel(model.html),
-                avatar = AvatarMapper.mapToNetworkModel(model.avatar),
-                self =  SelfMapper.mapToNetworkModel(model.self)
+                links = LinksMapper.mapToNetworkModel(model.links)
             )
         }
     }
@@ -82,11 +80,37 @@ private object OwnerMapper:ModelMapper<RepoOwner?,RepoOwnerDto?>{
                 accountID = model.accountID,
                 type = model.type,
                 nickname = model.nickname,
-                html = HtmlMapper.mapFromNetworkModel(model.html),
-                avatar = AvatarMapper.mapFromNetworkModel(model.avatar),
-                self =  SelfMapper.mapFromNetworkModel(model.self)
+                links = LinksMapper.mapFromNetworkModel(model.links)
+
             )
         }
+    }
+
+}
+
+private object LinksMapper:ModelMapper<Links?,LinksDto?> {
+    override fun mapToNetworkModel(model: Links?): LinksDto? {
+        return model?.let {
+            LinksDto(
+                html = HtmlMapper.mapToNetworkModel(model.html),
+                avatar = AvatarMapper.mapToNetworkModel(model.avatar),
+                self =  SelfMapper.mapToNetworkModel(model.self)
+
+            )
+        }
+    }
+
+    override fun mapFromNetworkModel(model: LinksDto?): Links? {
+        return model?.let {
+            return model?.let {
+                Links(
+                    html = HtmlMapper.mapFromNetworkModel(model.html),
+                    avatar = AvatarMapper.mapFromNetworkModel(model.avatar),
+                    self =  SelfMapper.mapFromNetworkModel(model.self)
+                )
+            }
+        }
+
     }
 
 }

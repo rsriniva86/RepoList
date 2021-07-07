@@ -47,11 +47,7 @@ data class RepoOwner (
    @ColumnInfo(name ="uuid")
    val uuid:String?,
    @Embedded
-   val self:Self?,
-   @Embedded
-   val html:Html?,
-   @Embedded
-   val avatar: Avatar?,
+   val links:Links?,
    @ColumnInfo(name ="owner_type")
    val type:String?,
    @ColumnInfo(name ="nickname")
@@ -59,6 +55,15 @@ data class RepoOwner (
    @ColumnInfo(name ="account_id")
    val accountID:String?
 ) : Serializable
+
+data class Links(
+   @Embedded
+   val self:Self?,
+   @Embedded
+   val html:Html?,
+   @Embedded
+   val avatar: Avatar?,
+   )
 
 data class Self(
    @ColumnInfo(name ="selfhref")

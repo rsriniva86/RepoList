@@ -48,18 +48,23 @@ data class RepoOwnerDto (
     val displayName:String?,
     @SerializedName("uuid")
     val uuid:String?,
-    @SerializedName("self")
-    val self:SelfDto?,
-    @SerializedName("html")
-    val html:HtmlDto?,
-    @SerializedName("avatar")
-    val avatar: AvatarDto?,
+    @SerializedName("links")
+    val links: LinksDto?,
     @SerializedName("type")
     val type:String?,
     @SerializedName("nickname")
     val nickname:String?,
     @SerializedName("account_id")
     val accountID:String?
+)
+
+data class LinksDto(
+    @SerializedName("self")
+    val self:SelfDto?,
+    @SerializedName("html")
+    val html:HtmlDto?,
+    @SerializedName("avatar")
+    val avatar: AvatarDto?,
 )
 
 data class SelfDto(

@@ -30,12 +30,12 @@ class AvatarDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getImageDetailData().observe(this, {
-            it.avatar?.let {
+            it.links?.avatar?.let {
                 Glide.with(view.context)
                     .load(it.href)
                     .transform(CenterCrop())
-                    .error(R.drawable.error_image)
-                    .placeholder(R.drawable.image_cover_missing)
+                    .error(R.drawable.user_avatar)
+                    .placeholder(R.drawable.user_avatar)
                     .into(view.imgDetail)
             }
 
