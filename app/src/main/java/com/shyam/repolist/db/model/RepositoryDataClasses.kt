@@ -7,13 +7,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity(tableName = "repository_list")
+@Entity(tableName = "repository_list", primaryKeys = ["url","index"])
 data class Repository (
 
    @NonNull
-   @PrimaryKey
    @ColumnInfo(name ="url")
-   var urlWithIndex:String,
+   var url:String,
+
+   @NonNull
+   @ColumnInfo(name ="index")
+   var index:Int,
 
    @ColumnInfo(name ="scm")
    val scm:String?,

@@ -17,6 +17,10 @@ interface RepositoryListDao {
     @Query("SELECT * FROM repository_list ")
     fun selectAll(): PagingSource<Int, Repository>
 
+    @Query("SELECT * FROM repository_list where url=:url")
+    fun selectByUrl( url:String): PagingSource<Int, Repository>
+
+
     @Query("DELETE FROM repository_list")
     suspend fun deleteAll()
 

@@ -29,35 +29,44 @@ class RepoListRemoteMediator constructor(
             Log.i(TAG, "load")
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    databaseService.withTransaction {
-                        if (loadType == LoadType.REFRESH) {
-                            databaseService.keyDao().deleteAll()
-                            databaseService.repoListDao().deleteAll()
-                        }
-                    }
                     null
                     }
-                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+                LoadType.PREPEND -> {
+                    Log.i(TAG, "prepend")
+                    return MediatorResult.Success(endOfPaginationReached = true)
+                }
                 LoadType.APPEND -> {
-                    state.lastItemOrNull()
-                        ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.i(TAG, "append")
+                    state.lastItemOrNull() ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    Log.i(TAG, "getRemoteKeys")
                     val key = getRemoteKeys()
                     key
                 }
             }
+            Log.i(TAG, "loadKey=$loadKey")
+
             val networkResponse =loadKey?.let{
                 Log.i(TAG, "getRepoListWithQuery, key=${decoded(it.key)}")
                 networkService.getRepoListWithQuery(decoded(it.key))
             } ?:networkService.getRepoList()
-
+            networkResponse.url=loadKey?.let{
+                NetworkConstants.BASE_URL+"repositories?after="+decoded(it.key)
+            }?:NetworkConstants.BASE_URL+"repositories"
             Log.i(TAG, "networkResponse=$networkResponse")
-            networkResponse.url=NetworkConstants.BASE_URL+"repositories"
+
             networkResponse.repositoryDataDtoList?.forEachIndexed {
                     index, repositoryDataDto ->
-                repositoryDataDto.urlWithIndex=networkResponse.url+ index
+                repositoryDataDto.url=networkResponse.url
+                repositoryDataDto.index=index
             }
             val repositoryList = NetworkModelMapper.mapFromNetworkModelList(networkResponse.repositoryDataDtoList)
+            databaseService.withTransaction {
+                if(loadType == LoadType.REFRESH){
+                    databaseService.repoListDao().deleteAll()
+                    databaseService.keyDao().deleteAll()
+                }
 
+            }
 
             if (repositoryList?.isNotEmpty() == true) {
                 databaseService.withTransaction {
@@ -66,7 +75,7 @@ class RepoListRemoteMediator constructor(
                         databaseService.repoListDao().save(it)
                     }
                     networkResponse.next?.let{
-                        Log.i(TAG,"next=${getKeyFromNextUrl(it)}")
+                        Log.i(TAG,"insertOrReplaceRemoteKeys=${getKeyFromNextUrl(it)}")
                         databaseService.keyDao().deleteAll()
                         databaseService
                             .keyDao()
@@ -78,7 +87,8 @@ class RepoListRemoteMediator constructor(
             }
 
             val isNextAbsent:Boolean = networkResponse.next.isNullOrBlank()
-            return MediatorResult.Success(endOfPaginationReached = true)
+            Log.i(TAG,"isNextAbsent=${isNextAbsent}")
+            return MediatorResult.Success(endOfPaginationReached = isNextAbsent)
 
         } catch (exception: IOException) {
             MediatorResult.Error(exception)

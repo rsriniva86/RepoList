@@ -17,7 +17,9 @@ data class RepositoryResponseDto(
 
 data class RepositoryDataDto (
     @Expose(serialize = false)
-    var urlWithIndex:String,
+    var url:String,
+    @Expose(serialize = false)
+    var index:Int,
     @SerializedName("scm")
     val scm:String?,
     @SerializedName("website")

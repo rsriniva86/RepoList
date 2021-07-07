@@ -18,7 +18,7 @@ class MainViewModel
 
        suspend fun getRepoList(): Flow<PagingData<Repository>> {
            return repoListRepository
-                   .getRepoList("")
+                   .getRepoList()
                    .cachedIn(viewModelScope)
        }
 

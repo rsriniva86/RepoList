@@ -18,15 +18,13 @@ class RepoListRepository_Impl
     )
     : RepoListRepository {
 
-    override suspend fun getRepoList(
-        urlQueryString: String
-    ): Flow<PagingData<Repository>> {
+    override suspend fun getRepoList(): Flow<PagingData<Repository>> {
         Log.i(TAG,"getRepoList")
         return Pager(
             PagingConfig(
-                pageSize = 3,
+                pageSize = 10,
                 enablePlaceholders = false,
-                prefetchDistance = 1),
+                prefetchDistance = 2),
             remoteMediator = RepoListRemoteMediator(
                     networkService=networkService,
                     databaseService=databaseService

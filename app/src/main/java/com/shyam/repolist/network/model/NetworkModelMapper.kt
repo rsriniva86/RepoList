@@ -5,7 +5,8 @@ object NetworkModelMapper : ModelMapperWithList<Repository, RepositoryDataDto>{
     override fun mapToNetworkModel(model: Repository): RepositoryDataDto {
         model.owner
         return RepositoryDataDto(
-            urlWithIndex = model.urlWithIndex,
+            url = model.url,
+            index = model.index,
             scm=model.scm,
             website = model.website,
             hasWiki = model.hasWiki,
@@ -21,7 +22,8 @@ object NetworkModelMapper : ModelMapperWithList<Repository, RepositoryDataDto>{
 
     override fun mapFromNetworkModel(model: RepositoryDataDto): Repository {
         return Repository(
-            urlWithIndex = model.urlWithIndex,
+            url = model.url,
+            index = model.index,
             scm=model.scm,
             website = model.website,
             hasWiki = model.hasWiki,
